@@ -23,7 +23,7 @@ namespace Projeto_Aula_132
             DateTime BirthDate = DateTime.Parse(Console.ReadLine());
 
             Client Cliente = new Client(PersonName, Email, BirthDate);
-            Order Order = new Order();
+            Order Order;
 
             // Class Oder
             Console.WriteLine("Enter Order data:");
@@ -31,7 +31,9 @@ namespace Projeto_Aula_132
             Console.Write("Status: ");
             OrderStatus OS = (OrderStatus)Enum.Parse(typeof(OrderStatus), Console.ReadLine());
 
-            Console.WriteLine("How many items to this order? ");
+            Order = new Order(DateTime.Now, OS, Cliente);
+
+            Console.Write("How many items to this order? ");
             int ItemsQuantity = int.Parse(Console.ReadLine());
 
             for (int i = 1; i <= ItemsQuantity; i++)
@@ -42,19 +44,17 @@ namespace Projeto_Aula_132
                 string ProductName = Console.ReadLine();
 
                 Console.Write("Product price: ");
-                double ProductPrice = double.Parse(Console.ReadLine());
+                double ProductPrice = double.Parse(Console.ReadLine());                
+
+                Product Product = new Product(ProductName, ProductPrice);
 
                 Console.Write("Quantity: ");
                 int ProductQuantity = int.Parse(Console.ReadLine());
 
-                Product Product = new Product(ProductName, ProductPrice);
-
                 OrderItem OrderItem = new OrderItem(ProductQuantity, ProductPrice, Product);
 
                 Order.addItem(OrderItem);
-            }
-
-            Order = new Order(DateTime.Now, OS, Cliente);
+            }            
 
             Console.WriteLine(Order);
 

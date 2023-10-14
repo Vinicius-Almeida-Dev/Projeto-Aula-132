@@ -13,7 +13,6 @@ namespace Projeto_Aula_132.Entities
         public OrderStatus Status { get; set; }
         public Client Client { get; set; }
         public List<OrderItem> Items { get; set; } = new List<OrderItem>();
-        private double total = 0;
 
         public Order()
         {
@@ -36,10 +35,23 @@ namespace Projeto_Aula_132.Entities
             Items.Remove(item);
         }
 
+        public double Total()
+        {
+            double Sum = 0;
+
+            foreach (var item in Items)
+            {
+                Sum += item.subTotal();
+            }
+
+            return Sum;
+        }
+
 
         public override string ToString()
         {
             StringBuilder SB = new StringBuilder();
+            SB.AppendLine("");
             SB.AppendLine("Order Summary");
             SB.AppendLine(Moment.ToString("dd/MM/yyyy HH:mm:ss"));
             SB.Append("Order Status: ");
@@ -47,7 +59,7 @@ namespace Projeto_Aula_132.Entities
             SB.Append("Client: ");
             SB.Append(Client.PersonName);
             SB.Append(" (");
-            SB.Append(Client.DateBirth.ToString());
+            SB.Append(Client.DateBirth.ToString("dd/MM/yyyy"));
             SB.Append(") ");
             SB.Append(" - ");
             SB.AppendLine(Client.Email);
@@ -63,12 +75,11 @@ namespace Projeto_Aula_132.Entities
                 SB.Append("Quantity: ");
                 SB.Append(item.Quandtity);
                 SB.Append(", Subtotal: $");
-                double SubTotal = item.subTotal();
-                SB.AppendLine(SubTotal.ToString("F2", CultureInfo.InvariantCulture));
-                total += SubTotal;
+                SB.AppendLine(item.subTotal().ToString("F2", CultureInfo.InvariantCulture));
+                
             }
             SB.Append("Total price:");
-            SB.Append(total.ToString("F2", CultureInfo.InvariantCulture));
+            SB.Append(Total().ToString("F2", CultureInfo.InvariantCulture));
 
             return SB.ToString();
 
